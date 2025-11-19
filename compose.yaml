@@ -1,6 +1,6 @@
 services:
   fms:
-    image: ${FMS_PRIMARY_IMAGE}-$(FMS_VERSION):latest
+    image: ghcr.io/fluid-obx/${FMS_PRIMARY_IMAGE}:latest
     container_name: ${CONTAINER_NAME}
     restart: unless-stopped
     privileged: true
@@ -21,14 +21,13 @@ services:
 
     volumes:
       # Directores
-      - ${COMPOSE_BACKUP_PATH}:/backups
       - ${COMPOSE_DATA_PATH}:/opt/FileMaker/FileMaker Server
+      - ${COMPOSE_OTTO_PATH}:/opt/OttoFMS
       - ${COMPOSE_CONFIG_PATH}:/config
       - ${PATH_SHARE}:/share
-      - ${PATH_UTILITY}:/utility
-      - ${COMPOSE_OTTO_PATH}:/opt/OttoFMS
 
       # Custom folders
+      - ${COMPOSE_BACKUP_PATH}:/backups
       - ${COMPOSE_DATABASES_PATH}:/databases
       - ${COMPOSE_FILES_PATH}:/files
 
