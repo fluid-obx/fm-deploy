@@ -59,6 +59,7 @@ RUN set -eux; \
         fonts-wqy-zenhei \
         ttf-mscorefonts-installer \
         init \
+        iproute2 \
         unixodbc \
         unixodbc-dev \
         odbcinst \
