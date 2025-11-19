@@ -1,0 +1,13 @@
+[Assisted Install]
+License Accepted=1
+Deployment Options=0
+Admin Console User=control
+Admin Console Password=password
+Admin Console PIN=1984
+License Certificate Path=
+Filter Databases=0
+Remove Desktop Shortcut=1
+Remove Sample Database=1
+Use HTTPS Tunneling=1
+Swap File Size=8192
+Swappiness=10

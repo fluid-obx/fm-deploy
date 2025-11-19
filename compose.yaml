@@ -1,0 +1,50 @@
+services:
+  fms:
+    image: ${FMS_PRIMARY_IMAGE}-$(FMS_VERSION):latest
+    container_name: ${CONTAINER_NAME}
+    restart: unless-stopped
+    privileged: true
+
+    env_file:
+      - ./.env
+
+    tmpfs:
+      - /run
+      - /run/lock
+      - /tmp
+      - /var/log/journal
+
+    ports:
+      - "${FMS_PORT_HTTP}:80"
+      - "${FMS_PORT_HTTPS}:443"
+      - "${FMS_PORT_FMP}:5003"
+      - "2399:2399"
+
+    volumes:
+      # Directores
+      - ${COMPOSE_BACKUP_PATH}:/backups
+      - ${COMPOSE_DATA_PATH}:/opt/FileMaker/FileMaker Server
+      - ${COMPOSE_CONFIG_PATH}:/config
+      - ${PATH_SHARE}:/share
+      - ${PATH_UTILITY}:/utility
+      - ${COMPOSE_OTTO_PATH}:/opt/OttoFMS
+
+      # Custom folders
+      - ${COMPOSE_DATABASES_PATH}:/databases
+      - ${COMPOSE_FILES_PATH}:/files
+
+      # For systemd
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+
+      # Optional:
+
+      # DNS override
+      #- /etc/resolv.conf:/etc/resolv.conf:ro
+
+      # MySQL ODBC support
+      #- ${COMPOSE_CONFIG_PATH}/odbc.ini:/etc/odbc.ini:ro
+      #- ${COMPOSE_CONFIG_PATH}/odbcinst.ini:/etc/odbcinst.ini:ro
+
+      # Timezone
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
