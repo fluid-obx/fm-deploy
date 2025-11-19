@@ -10,9 +10,9 @@ if [[ -f "$ENV_FILE" ]]; then
   source "$ENV_FILE"
   set +o allexport
   set -u
-  log "Loaded environment variables from $ENV_FILE"
+  echo "Loaded environment variables from $ENV_FILE"
 else
-  log "No .env file found at $ENV_FILE"
+  echo "No .env file found at $ENV_FILE"
 fi
 
 ###############################################################################
@@ -50,7 +50,7 @@ echo -e "🧰 Installing FileMaker Server..."
 echo "Logs: /share/logs/fms_install.log"
 
 apt update -y
-FM_ASSISTED_INSTALL=/install apt install -y "/install/$INSTALLER_FILE" \
+FM_ASSISTED_INSTALL=/install apt install -y "$INSTALLER_FILE" \
   | tee /share/logs/fms_install.log
 
 # FMS post-install service behavior
