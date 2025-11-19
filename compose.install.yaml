@@ -1,6 +1,6 @@
 services:
   fms:
-    image: ghcr.io/fluid-obx/fms-os-24.04:2.0.3
+    image: ghcr.io/fluid-obx/fms-os-24.04:latest
     container_name: ${CONTAINER_NAME}
     restart: unless-stopped
     privileged: true             # Required for systemd
