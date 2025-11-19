@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ENV_FILE="./.env"
+ENV_FILE="settings/.env"
 
 if [[ -f "$ENV_FILE" ]]; then
   # Temporarily relax undefined-variable checks
@@ -31,7 +31,7 @@ fi
 ###############################################################################
 echo -e "📝 Copying Assisted Install.txt..."
 
-PROJECT_ASSISTED_INSTALL="./Assisted Install.txt"
+PROJECT_ASSISTED_INSTALL="./settings/Assisted Install.txt"
 DEST_ASSISTED_INSTALL="$FMS_INSTALLER_PATH/Assisted Install.txt"
 
 if [[ ! -f "$PROJECT_ASSISTED_INSTALL" ]]; then
@@ -55,6 +55,7 @@ FM_ASSISTED_INSTALL=/install apt install -y "$INSTALLER_FILE" \
 
 # FMS post-install service behavior
 /bin/systemctl start fmshelper.service
+rm -f "$DEST_ASSISTED_INSTALL"
 
 ###############################################################################
 # Health check for fmshelper.service

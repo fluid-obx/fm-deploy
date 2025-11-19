@@ -1,0 +1,71 @@
+# 🦀 v2025.10.11
+
+###############################################################################
+# Storage
+
+# 📂 Local-Only Folders
+/local/
+/software/
+/node_modules/
+
+###############################################################################
+# Development
+
+# 👨‍💻 Developer Config / Secrets
+.env
+.env.*
+*.key
+*.pem
+*.crt
+*.cert
+*.p12
+*.mobileprovision
+*.xcconfig.local
+
+# 🎹 Editor Metadata
+.vscode/
+.idea/
+.nova/
+.zed/
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# 🐙 Git Artifacts
+*.orig
+*.rej
+.gitignore.local
+.git/info/exclude
+
+# 📦 Swift Package Manager
+.swiftpm/
+.build/
+Package.resolved
+Package.pins
+
+# 🧱 Xcode
+*.xcodeworkspace
+*.xcodeproj
+*.pbxuser
+*.xcuserstate
+xcuserdata/
+DerivedData/
+build/
+Build/
+index.noindex/
+
+###############################################################################
+# System
+
+# 💼 macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+Desktop.ini
+ehthumbs.db
+Thumbs.db

@@ -9,7 +9,7 @@ services:
     stdin_open: true
 
     env_file:
-      - ./.env
+      - settings/.env
 
     tmpfs:
       - /run
