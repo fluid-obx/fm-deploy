@@ -3,7 +3,10 @@ services:
     image: ghcr.io/fluid-obx/fms-os-24.04:latest
     container_name: ${CONTAINER_NAME}
     restart: unless-stopped
-    privileged: true             # Required for systemd
+    privileged: true
+
+    tty: true
+    stdin_open: true
 
     env_file:
       - ./.env
@@ -11,17 +14,16 @@ services:
     tmpfs:
       - /run
       - /run/lock
-      - /tmp
-      - /var/log/journal         # optional but recommended
+      - /var/log/journal
 
     volumes:
-      # Directories
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+
+      # Data
       - ${COMPOSE_DATA_PATH}:/opt/FileMaker/FileMaker Server
       - ${COMPOSE_OTTO_PATH}:/opt/OttoFMS
       - ${PATH_SHARE}:/share
 
+      # Installer + config
       - ${COMPOSE_CONFIG_PATH}:/config
       - ${COMPOSE_INSTALL_PATH}:/install
-
-      # For systemd
-      - /sys/fs/cgroup:/sys/fs/cgroup:rw
