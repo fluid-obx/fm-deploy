@@ -1,4 +1,4 @@
-FROM jrei/systemd-ubuntu:24.04
+FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -82,3 +82,5 @@ RUN set -eux; \
 EXPOSE 80 443 2399 5003
 
 USER root
+
+CMD ["/sbin/init"]
