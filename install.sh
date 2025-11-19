@@ -16,6 +16,74 @@ else
 fi
 
 ###############################################################################
+# Detect installed FileMaker Server and compare versions (normalized)
+###############################################################################
+echo -e "🔍 Checking existing FileMaker Server installation and version..."
+
+FMS_PACKAGE_NAME="filemaker-server"
+INSTALLED_VERSION=""
+
+if dpkg -s "$FMS_PACKAGE_NAME" 2>/dev/null | grep -q "Status: install ok installed"; then
+    FMS_ALREADY_INSTALLED=true
+    INSTALLED_VERSION=$(dpkg -s "$FMS_PACKAGE_NAME" | grep '^Version:' | awk '{print $2}')
+    echo -e "✔ FileMaker Server is installed. Full version: ${INSTALLED_VERSION}"
+else
+    FMS_ALREADY_INSTALLED=false
+    echo -e "✖ FileMaker Server is NOT installed."
+fi
+
+###############################################################################
+# Version normalization
+# Purpose: FMS debs often include build numbers (22.0.2.223)
+# .env typically uses major.minor.patch (22.0.2)
+# We must strip build numbers before comparison.
+###############################################################################
+
+normalize_version() {
+    # Returns first 3 components (major.minor.patch)
+    echo "$1" | cut -d'.' -f1-3
+}
+
+if [[ "$FMS_ALREADY_INSTALLED" = true ]]; then
+    NORMALIZED_INSTALLED_VERSION=$(normalize_version "$INSTALLED_VERSION")
+else
+    NORMALIZED_INSTALLED_VERSION="0.0.0"
+fi
+
+NORMALIZED_INSTALLER_VERSION=$(normalize_version "$FMS_VERSION")
+
+echo -e "🧮 Comparing normalized versions:"
+echo -e "    Installer version: ${NORMALIZED_INSTALLER_VERSION} (from .env)"
+echo -e "    Installed version: ${NORMALIZED_INSTALLED_VERSION} (normalized from ${INSTALLED_VERSION})"
+
+###############################################################################
+# Version comparison decision tree (normalized compare)
+###############################################################################
+if [[ "$FMS_ALREADY_INSTALLED" = true ]]; then
+
+    # Case 1: Same version = skip
+    if dpkg --compare-versions "$NORMALIZED_INSTALLER_VERSION" eq "$NORMALIZED_INSTALLED_VERSION"; then
+        echo -e "⏭  Versions match (major.minor.patch). Skipping installation."
+        exit 0
+    fi
+
+    # Case 2: Installer older = skip
+    if dpkg --compare-versions "$NORMALIZED_INSTALLER_VERSION" lt "$NORMALIZED_INSTALLED_VERSION"; then
+        echo -e "⏭  Installer (${NORMALIZED_INSTALLER_VERSION}) is older than installed (${NORMALIZED_INSTALLED_VERSION})."
+        echo -e "    Downgrade prevented — skipping installation."
+        exit 0
+    fi
+
+    # Case 3: Installer newer = upgrade
+    if dpkg --compare-versions "$NORMALIZED_INSTALLER_VERSION" gt "$NORMALIZED_INSTALLED_VERSION"; then
+        echo -e "♻  Newer version detected. Proceeding with reinstall/upgrade..."
+    fi
+
+else
+    echo -e "🆕 No existing FileMaker Server found — performing fresh install..."
+fi
+
+###############################################################################
 # Check installer
 ###############################################################################
 echo -e "🔍 Checking installer..."

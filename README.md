@@ -1,7 +1,7 @@
 # 🚀 FileMaker Server in Docker (Ubuntu + systemd)
 ### **A production-ready FileMaker Server image**
 
-Welcome to a **sane, repeatable, no-nonsense** way to run **Claris FileMaker Server** inside Docker. This project produces a **fully installed, snapshot-clean FileMaker Server image** published to GHCR, install-once and run anywhere.
+Welcome to a **sane, repeatable** way to run **Claris FileMaker Server** inside Docker. This project produces a **fully installed, snapshot-clean FileMaker Server image** published to GHCR, install-once and run anywhere.
 
 ---
 
